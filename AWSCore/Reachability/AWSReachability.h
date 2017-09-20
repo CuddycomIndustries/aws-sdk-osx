@@ -54,6 +54,10 @@ typedef void (^AWSReachabilityNetworkUnreachable)(AWSReachability * reachability
 
 
 @interface AWSReachability : NSObject
+{
+@private
+	dispatch_queue_t _reachabilitySerialQueue;
+}
 
 @property (nonatomic, copy) AWSReachabilityNetworkReachable    reachableBlock;
 @property (nonatomic, copy) AWSReachabilityNetworkUnreachable  unreachableBlock;

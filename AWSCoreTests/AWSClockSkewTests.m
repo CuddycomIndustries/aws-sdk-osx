@@ -87,7 +87,7 @@ static NSString *AWSClockSkewTestsSTSKey = @"AWSClockSkewTestsSTSKey";
                                                @"locale":@"en-US"},
                                     @"custom" : @{},
                                     };
-    NSString *clientContextJsonString = [[NSString alloc] initWithData: [NSJSONSerialization dataWithJSONObject:clientContext options:0 error:nil] encoding:NSUTF8StringEncoding];
+    NSString *clientContextJsonString = [[NSString alloc] initWithData: [AWSJSONSerialization dataWithJSONObject:clientContext options:0 error:nil] encoding:NSUTF8StringEncoding];
 
     putEventInput.clientContext = clientContextJsonString;
 

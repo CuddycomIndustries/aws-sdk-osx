@@ -55,7 +55,7 @@ typedef void (^AWSS3TransferUtilityDownloadCompletionHandlerBlock) (AWSS3Transfe
  @param totalBytesSent           The total number of bytes sent so far.
  @param totalBytesExpectedToSend The expected length of the body data.
 
- @note Refer to `- URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:` in `NSURLSessionTaskDelegate` for more details.
+ @note Refer to `- URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:` in `AWSURLSessionTaskDelegate` for more details.
  */
 typedef void (^AWSS3TransferUtilityUploadProgressBlock) (AWSS3TransferUtilityUploadTask *task,
                                                          int64_t bytesSent,
@@ -68,9 +68,9 @@ typedef void (^AWSS3TransferUtilityUploadProgressBlock) (AWSS3TransferUtilityUpl
  @param task                      The download task object.
  @param bytesWritten              The number of bytes transferred since the last time this delegate method was called.
  @param totalBytesWritten         The total number of bytes transferred so far.
- @param totalBytesExpectedToWrite The expected length of the file, as provided by the `Content-Length` header. If this header was not provided, the value is `NSURLSessionTransferSizeUnknown`.
+ @param totalBytesExpectedToWrite The expected length of the file, as provided by the `Content-Length` header. If this header was not provided, the value is `AWSURLSessionTransferSizeUnknown`.
 
- @note Refer to `- URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:` in `NSURLSessionDownloadDelegate` for more details.
+ @note Refer to `- URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:` in `AWSURLSessionDownloadDelegate` for more details.
  */
 typedef void (^AWSS3TransferUtilityDownloadProgressBlock) (AWSS3TransferUtilityDownloadTask *task,
                                                            int64_t bytesWritten,

@@ -39,6 +39,28 @@
 		CE83D0EB1B7171EB004A42E4 /* AWSS3TransferUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = CE83D0E91B7171EB004A42E4 /* AWSS3TransferUtility.m */; };
 		CEE5326E1B03D3CB002CED62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE5326D1B03D3CB002CED62 /* libz.dylib */; };
 		CEE7DE731AC1E1DA0095C4B7 /* AWSS3Service.h in Headers */ = {isa = PBXBuildFile; fileRef = CEE7DE721AC1E1DA0095C4B7 /* AWSS3Service.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D888ED9A1F444AE3005AD3BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D888ED991F444AE3005AD3BD /* main.m */; };
+		D888ED9E1F447F56005AD3BD /* libAWSS3ForMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8D1A4971F2F82CC008740CA /* libAWSS3ForMac.a */; };
+		D888EDA01F448008005AD3BD /* libAWSCoreForMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D888ED9F1F448008005AD3BD /* libAWSCoreForMac.a */; };
+		D888EDA21F44805A005AD3BD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D888EDA11F44805A005AD3BD /* libz.tbd */; };
+		D8D1A47F1F2F82CC008740CA /* AWSS3Service.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF55A0D1AB377010067F4F1 /* AWSS3Service.m */; };
+		D8D1A4801F2F82CC008740CA /* AWSS3Resources.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB73D861B1D3F4900717559 /* AWSS3Resources.m */; };
+		D8D1A4811F2F82CC008740CA /* AWSS3Model.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF55A0F1AB377010067F4F1 /* AWSS3Model.m */; };
+		D8D1A4821F2F82CC008740CA /* AWSS3TransferManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF55A0B1AB377010067F4F1 /* AWSS3TransferManager.m */; };
+		D8D1A4831F2F82CC008740CA /* AWSS3PreSignedURL.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF55A091AB377010067F4F1 /* AWSS3PreSignedURL.m */; };
+		D8D1A4841F2F82CC008740CA /* AWSS3TransferUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = CE83D0E91B7171EB004A42E4 /* AWSS3TransferUtility.m */; };
+		D8D1A4871F2F82CC008740CA /* AWSS3Service.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CEE7DE721AC1E1DA0095C4B7 /* AWSS3Service.h */; };
+		D8D1A4881F2F82CC008740CA /* AWSS3PreSignedURL.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF55A081AB377010067F4F1 /* AWSS3PreSignedURL.h */; };
+		D8D1A4891F2F82CC008740CA /* AWSS3TransferManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF55A0A1AB377010067F4F1 /* AWSS3TransferManager.h */; };
+		D8D1A48A1F2F82CC008740CA /* AWSS3.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF55A0C1AB377010067F4F1 /* AWSS3.h */; };
+		D8D1A48B1F2F82CC008740CA /* AWSS3Model.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BDF55A0E1AB377010067F4F1 /* AWSS3Model.h */; };
+		D8D1A48D1F2F82CC008740CA /* AWSS3Model.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF55A0E1AB377010067F4F1 /* AWSS3Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D1A48E1F2F82CC008740CA /* AWSS3PreSignedURL.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF55A081AB377010067F4F1 /* AWSS3PreSignedURL.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D1A48F1F2F82CC008740CA /* AWSS3Resources.h in Headers */ = {isa = PBXBuildFile; fileRef = BDB73D851B1D3F4900717559 /* AWSS3Resources.h */; };
+		D8D1A4901F2F82CC008740CA /* AWSS3TransferUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = CE83D0E81B7171EB004A42E4 /* AWSS3TransferUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D1A4911F2F82CC008740CA /* AWSS3TransferManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF55A0A1AB377010067F4F1 /* AWSS3TransferManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D1A4921F2F82CC008740CA /* AWSS3Service.h in Headers */ = {isa = PBXBuildFile; fileRef = CEE7DE721AC1E1DA0095C4B7 /* AWSS3Service.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8D1A4931F2F82CC008740CA /* AWSS3.h in Headers */ = {isa = PBXBuildFile; fileRef = BDF55A0C1AB377010067F4F1 /* AWSS3.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +95,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D888ED951F444AE3005AD3BD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D8D1A4861F2F82CC008740CA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				D8D1A4871F2F82CC008740CA /* AWSS3Service.h in CopyFiles */,
+				D8D1A4881F2F82CC008740CA /* AWSS3PreSignedURL.h in CopyFiles */,
+				D8D1A4891F2F82CC008740CA /* AWSS3TransferManager.h in CopyFiles */,
+				D8D1A48A1F2F82CC008740CA /* AWSS3.h in CopyFiles */,
+				D8D1A48B1F2F82CC008740CA /* AWSS3Model.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +148,11 @@
 		CE83D0E91B7171EB004A42E4 /* AWSS3TransferUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSS3TransferUtility.m; sourceTree = "<group>"; };
 		CEE5326D1B03D3CB002CED62 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CEE7DE721AC1E1DA0095C4B7 /* AWSS3Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSS3Service.h; sourceTree = "<group>"; };
+		D888ED971F444AE3005AD3BD /* AWSS3Tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AWSS3Tool; sourceTree = BUILT_PRODUCTS_DIR; };
+		D888ED991F444AE3005AD3BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D888ED9F1F448008005AD3BD /* libAWSCoreForMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAWSCoreForMac.a; path = "../../../../Library/Developer/Xcode/DerivedData/Adik-ghqxffhlsxfhbabksepfiwkhdpxh/Build/Products/Debug/libAWSCoreForMac.a"; sourceTree = "<group>"; };
+		D888EDA11F44805A005AD3BD /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		D8D1A4971F2F82CC008740CA /* libAWSS3ForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAWSS3ForMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,12 +184,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D888ED941F444AE3005AD3BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D888EDA21F44805A005AD3BD /* libz.tbd in Frameworks */,
+				D888EDA01F448008005AD3BD /* libAWSCoreForMac.a in Frameworks */,
+				D888ED9E1F447F56005AD3BD /* libAWSS3ForMac.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D1A4851F2F82CC008740CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		7D7D82B43AAE1FAA16A74BC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D888EDA11F44805A005AD3BD /* libz.tbd */,
+				D888ED9F1F448008005AD3BD /* libAWSCoreForMac.a */,
 				BDD876B11B4B5339009268C7 /* libOCMock.a */,
 				CEE5326D1B03D3CB002CED62 /* libz.dylib */,
 				BD00FF401AB8B6D2004496EF /* libAWSCore.a */,
@@ -152,6 +221,7 @@
 			children = (
 				BDF559EE1AB376DC0067F4F1 /* AWSS3 */,
 				BDF559FB1AB376DC0067F4F1 /* AWSS3Tests */,
+				D888ED981F444AE3005AD3BD /* AWSS3Tool */,
 				BDF559ED1AB376DC0067F4F1 /* Products */,
 				7D7D82B43AAE1FAA16A74BC2 /* Frameworks */,
 			);
@@ -163,6 +233,8 @@
 				BDF559EC1AB376DC0067F4F1 /* libAWSS3.a */,
 				BDF559F71AB376DC0067F4F1 /* AWSS3Tests.xctest */,
 				BDF1261F1B45C2C100DFBFEC /* AWSS3UnitTests.xctest */,
+				D8D1A4971F2F82CC008740CA /* libAWSS3ForMac.a */,
+				D888ED971F444AE3005AD3BD /* AWSS3Tool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -210,6 +282,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D888ED981F444AE3005AD3BD /* AWSS3Tool */ = {
+			isa = PBXGroup;
+			children = (
+				D888ED991F444AE3005AD3BD /* main.m */,
+			);
+			path = AWSS3Tool;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -224,6 +304,20 @@
 				BDF55A141AB377010067F4F1 /* AWSS3TransferManager.h in Headers */,
 				CEE7DE731AC1E1DA0095C4B7 /* AWSS3Service.h in Headers */,
 				BDF55A161AB377010067F4F1 /* AWSS3.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D1A48C1F2F82CC008740CA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8D1A48D1F2F82CC008740CA /* AWSS3Model.h in Headers */,
+				D8D1A48E1F2F82CC008740CA /* AWSS3PreSignedURL.h in Headers */,
+				D8D1A48F1F2F82CC008740CA /* AWSS3Resources.h in Headers */,
+				D8D1A4901F2F82CC008740CA /* AWSS3TransferUtility.h in Headers */,
+				D8D1A4911F2F82CC008740CA /* AWSS3TransferManager.h in Headers */,
+				D8D1A4921F2F82CC008740CA /* AWSS3Service.h in Headers */,
+				D8D1A4931F2F82CC008740CA /* AWSS3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +378,41 @@
 			productReference = BDF559F71AB376DC0067F4F1 /* AWSS3Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D888ED961F444AE3005AD3BD /* AWSS3Tool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D888ED9B1F444AE3005AD3BD /* Build configuration list for PBXNativeTarget "AWSS3Tool" */;
+			buildPhases = (
+				D888ED931F444AE3005AD3BD /* Sources */,
+				D888ED941F444AE3005AD3BD /* Frameworks */,
+				D888ED951F444AE3005AD3BD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AWSS3Tool;
+			productName = AWSS3Tool;
+			productReference = D888ED971F444AE3005AD3BD /* AWSS3Tool */;
+			productType = "com.apple.product-type.tool";
+		};
+		D8D1A47D1F2F82CC008740CA /* AWSS3ForMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8D1A4941F2F82CC008740CA /* Build configuration list for PBXNativeTarget "AWSS3ForMac" */;
+			buildPhases = (
+				D8D1A47E1F2F82CC008740CA /* Sources */,
+				D8D1A4851F2F82CC008740CA /* Frameworks */,
+				D8D1A4861F2F82CC008740CA /* CopyFiles */,
+				D8D1A48C1F2F82CC008740CA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AWSS3ForMac;
+			productName = S3;
+			productReference = D8D1A4971F2F82CC008740CA /* libAWSS3ForMac.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -298,6 +427,10 @@
 					};
 					BDF559F61AB376DC0067F4F1 = {
 						CreatedOnToolsVersion = 6.2;
+					};
+					D888ED961F444AE3005AD3BD = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -316,6 +449,8 @@
 				BDF559EB1AB376DC0067F4F1 /* AWSS3 */,
 				BDF559F61AB376DC0067F4F1 /* AWSS3Tests */,
 				BDF1260D1B45C2C100DFBFEC /* AWSS3UnitTests */,
+				D8D1A47D1F2F82CC008740CA /* AWSS3ForMac */,
+				D888ED961F444AE3005AD3BD /* AWSS3Tool */,
 			);
 		};
 /* End PBXProject section */
@@ -369,6 +504,27 @@
 				BD0000581AB8E18E004496EF /* AWSTestUtility.m in Sources */,
 				BD00FFED1AB8C42D004496EF /* AWSS3TransferManagerTests.m in Sources */,
 				BD00FFEC1AB8C42D004496EF /* AWSS3Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D888ED931F444AE3005AD3BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D888ED9A1F444AE3005AD3BD /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8D1A47E1F2F82CC008740CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8D1A47F1F2F82CC008740CA /* AWSS3Service.m in Sources */,
+				D8D1A4801F2F82CC008740CA /* AWSS3Resources.m in Sources */,
+				D8D1A4811F2F82CC008740CA /* AWSS3Model.m in Sources */,
+				D8D1A4821F2F82CC008740CA /* AWSS3TransferManager.m in Sources */,
+				D8D1A4831F2F82CC008740CA /* AWSS3PreSignedURL.m in Sources */,
+				D8D1A4841F2F82CC008740CA /* AWSS3TransferUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +748,75 @@
 			};
 			name = Release;
 		};
+		D888ED9C1F444AE3005AD3BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = (
+					"include/**",
+					AWS3,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D888ED9D1F444AE3005AD3BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = (
+					"include/**",
+					AWS3,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D8D1A4951F2F82CC008740CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D8D1A4961F2F82CC008740CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -627,6 +852,23 @@
 			buildConfigurations = (
 				BDF55A041AB376DC0067F4F1 /* Debug */,
 				BDF55A051AB376DC0067F4F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D888ED9B1F444AE3005AD3BD /* Build configuration list for PBXNativeTarget "AWSS3Tool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D888ED9C1F444AE3005AD3BD /* Debug */,
+				D888ED9D1F444AE3005AD3BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D8D1A4941F2F82CC008740CA /* Build configuration list for PBXNativeTarget "AWSS3ForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8D1A4951F2F82CC008740CA /* Debug */,
+				D8D1A4961F2F82CC008740CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

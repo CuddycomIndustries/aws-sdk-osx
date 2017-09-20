@@ -20,6 +20,7 @@
 #import "AWSModel.h"
 #import "AWSURLSessionManager.h"
 #import "AWSService.h"
+#import "AWSURLSession.h"
 
 NSString *const AWSNetworkingErrorDomain = @"com.amazonaws.AWSNetworkingErrorDomain";
 
@@ -71,8 +72,8 @@ NSString *const AWSNetworkingErrorDomain = @"com.amazonaws.AWSNetworkingErrorDom
 - (void)dealloc
 {
     //networkManager will never be dealloc'ed if session had not been invalidated.
-    NSURLSession * session = [_networkManager valueForKey:@"session"];
-    if ([session isKindOfClass:[NSURLSession class]]) {
+    AWSURLSession * session = [_networkManager valueForKey:@"session"];
+    if ([session isKindOfClass:[AWSURLSession class]]) {
         [session finishTasksAndInvalidate];
     }
 }
@@ -120,16 +121,18 @@ NSString *const AWSNetworkingErrorDomain = @"com.amazonaws.AWSNetworkingErrorDom
 
 - (NSURL *)URL {
     // You can overwrite the URL by providing a full URL in URLString.
-    NSURL *fullURL = [NSURL URLWithString:self.URLString];
-    if ([fullURL.scheme isEqualToString:@"http"]
-        || [fullURL.scheme isEqualToString:@"https"]) {
-        NSMutableDictionary *headers = [self.headers mutableCopy];
-        headers[@"Host"] = [fullURL host];
-        self.headers = headers;
-        return fullURL;
-    }
-
-    if (!self.URLString) {
+	if (self.URLString != nil)
+	{
+		NSURL *fullURL = [NSURL URLWithString:self.URLString];
+		if ([fullURL.scheme isEqualToString:@"http"]
+			|| [fullURL.scheme isEqualToString:@"https"]) {
+			NSMutableDictionary *headers = [self.headers mutableCopy];
+			headers[@"Host"] = [fullURL host];
+			self.headers = headers;
+			return fullURL;
+		}
+	}
+	else {
         return self.baseURL;
     }
 
@@ -174,7 +177,7 @@ NSString *const AWSNetworkingErrorDomain = @"com.amazonaws.AWSNetworkingErrorDom
 
 @interface AWSNetworkingRequest()
 
-@property (nonatomic, strong) NSURLSessionTask *task;
+@property (nonatomic, strong) id<AWSURLSessionTask> task;
 @property (nonatomic, assign, getter = isCancelled) BOOL cancelled;
 
 @end
@@ -223,7 +226,7 @@ NSString *const AWSNetworkingErrorDomain = @"com.amazonaws.AWSNetworkingErrorDom
     }
 }
 
-- (void)setTask:(NSURLSessionTask *)task {
+- (void)setTask:(id<AWSURLSessionTask>)task {
     @synchronized(self) {
         if (!_cancelled) {
             _task = task;

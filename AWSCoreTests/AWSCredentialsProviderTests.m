@@ -50,8 +50,8 @@
     XCTAssertEqualObjects(self.dummySecretKey, staticProviderOne.secretKey);
     
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"credentials" ofType:@"json"];
-    NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                    options:NSJSONReadingMutableContainers
+    NSDictionary *credentialsJson = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                    options:AWSJSONReadingMutableContainers
                                                                       error:nil];
     AWSStaticCredentialsProvider *staticProviderTwo = [AWSStaticCredentialsProvider credentialsWithCredentialsFilename:@"credentials"];
     XCTAssertEqualObjects(credentialsJson[@"accessKey"], staticProviderTwo.accessKey);

@@ -329,20 +329,22 @@ static int AWSFMDBDatabaseBusyHandler(void *f, int count) {
 
 
 - (void)setCachedStatement:(AWSFMStatement*)statement forQuery:(NSString*)query {
-    
-    query = [query copy]; // in case we got handed in a mutable string...
-    [statement setQuery:query];
-    
-    NSMutableSet* statements = [_cachedStatements objectForKey:query];
-    if (!statements) {
-        statements = [NSMutableSet set];
-    }
-    
-    [statements addObject:statement];
-    
-    [_cachedStatements setObject:statements forKey:query];
-    
-    AWSFMDBRelease(query);
+	if (query != nil)
+	{
+		query = [query copy]; // in case we got handed in a mutable string...
+		[statement setQuery:query];
+		
+		NSMutableSet* statements = [_cachedStatements objectForKey:query];
+		if (!statements) {
+			statements = [NSMutableSet set];
+		}
+		
+		[statements addObject:statement];
+		
+		[_cachedStatements setObject:statements forKey:query];
+		
+		AWSFMDBRelease(query);
+	}
 }
 
 #pragma mark Key routines

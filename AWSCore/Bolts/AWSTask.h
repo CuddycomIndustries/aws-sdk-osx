@@ -34,6 +34,12 @@ typedef id(^AWSContinuationBlock)(AWSTask *task);
  be run once the task is complete.
  */
 @interface AWSTask : NSObject
+{
+@private
+	BOOL _cancelled;
+	BOOL _faulted;
+	BOOL _completed;
+}
 
 /*!
  Creates a task that is already completed with the given result.
@@ -114,17 +120,17 @@ typedef id(^AWSContinuationBlock)(AWSTask *task);
 /*!
  Whether this task has been cancelled.
  */
-@property (nonatomic, assign, readonly, getter = isCancelled) BOOL cancelled;
+@property (assign, readonly, getter = isCancelled) BOOL cancelled;
 
 /*!
  Whether this task has completed due to an error or exception.
  */
-@property (nonatomic, assign, readonly, getter = isFaulted) BOOL faulted;
+@property (assign, readonly, getter = isFaulted) BOOL faulted;
 
 /*!
  Whether this task has completed.
  */
-@property (nonatomic, assign, readonly, getter = isCompleted) BOOL completed;
+@property (assign, readonly, getter = isCompleted) BOOL completed;
 
 /*!
  Enqueues the given block to be run once this task is complete.

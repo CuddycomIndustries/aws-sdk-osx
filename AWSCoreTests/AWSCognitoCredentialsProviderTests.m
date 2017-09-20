@@ -122,8 +122,8 @@ BOOL _identityChanged;
 
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"credentials"
                                                                           ofType:@"json"];
-    NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                    options:NSJSONReadingMutableContainers
+    NSDictionary *credentialsJson = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                    options:AWSJSONReadingMutableContainers
                                                                       error:nil];
     AWSCognitoCredentialsProviderTestsAccountID = credentialsJson[@"accountId"];
     AWSCognitoCredentialsProviderTestsFacebookAppID = credentialsJson[@"facebookAppId"];
@@ -645,8 +645,8 @@ BOOL _identityChanged;
     NSString *addUserURI = [NSString stringWithFormat:@"https://graph.facebook.com/%@/accounts/test-users?installed=true&name=Foo%%20Bar&locale=en_US&permissions=read_stream&method=post&access_token=%@", AWSCognitoCredentialsProviderTestsFacebookAppID, _facebookAppToken];
 
     NSString *newUser = [NSString stringWithContentsOfURL:[NSURL URLWithString:addUserURI] encoding:NSASCIIStringEncoding error:nil];
-    NSDictionary *user = [NSJSONSerialization JSONObjectWithData: [newUser dataUsingEncoding:NSUTF8StringEncoding]
-                                                         options: NSJSONReadingMutableContainers
+    NSDictionary *user = [AWSJSONSerialization JSONObjectWithData: [newUser dataUsingEncoding:NSUTF8StringEncoding]
+                                                         options: AWSJSONReadingMutableContainers
                                                            error: nil];
 
     _facebookToken = [user objectForKey:@"access_token"];

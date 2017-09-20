@@ -569,7 +569,7 @@ NSString *const emptyStringSha256 = @"e3b0c44298fc1c149afbf4c8996fb92427ae41e464
 
 @interface AWSS3ChunkedEncodingInputStream()
 
-@property (nonatomic, weak) id<NSStreamDelegate> delegate;
+@property (nonatomic, assign) id<NSStreamDelegate> delegate;
 
 // original input stream
 @property (nonatomic, strong) NSInputStream *stream;

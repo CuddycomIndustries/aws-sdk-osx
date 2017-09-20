@@ -17,6 +17,8 @@
 #import <XCTest/XCTest.h>
 #import "AWSCore.h"
 #import "AWSURLSessionManager.h"
+#import "AWSURLSession.h"
+#import "AWSURLSessionConfiguration.h"
 
 @interface AWSNetworkingTests : XCTestCase
 
@@ -122,7 +124,7 @@
     XCTAssertEqual(STS.configuration.timeoutIntervalForRequest, 0);
     XCTAssertEqual(STS.configuration.timeoutIntervalForResource, 0);
     XCTAssertEqual(STS.configuration.maxRetryCount, 3);
-    NSURLSessionConfiguration *URLSessionConfiguration = [STS valueForKeyPath:@"networking.networkManager.session.configuration"];
+    AWSURLSessionConfiguration *URLSessionConfiguration = [STS valueForKeyPath:@"networking.networkManager.session.configuration"];
     XCTAssertEqual(URLSessionConfiguration.timeoutIntervalForRequest, 60);
     XCTAssertEqual(URLSessionConfiguration.timeoutIntervalForResource, 604800); // 1 week
 }
@@ -141,7 +143,7 @@
     XCTAssertEqual(STS.configuration.timeoutIntervalForRequest, 123);
     XCTAssertEqual(STS.configuration.timeoutIntervalForResource, 321);
     XCTAssertEqual(STS.configuration.maxRetryCount, 4);
-    NSURLSessionConfiguration *URLSessionConfiguration = [STS valueForKeyPath:@"networking.networkManager.session.configuration"];
+    AWSURLSessionConfiguration *URLSessionConfiguration = [STS valueForKeyPath:@"networking.networkManager.session.configuration"];
     XCTAssertEqual(URLSessionConfiguration.timeoutIntervalForRequest, 123);
     XCTAssertEqual(URLSessionConfiguration.timeoutIntervalForResource, 321);
 }
@@ -160,7 +162,7 @@
     XCTAssertEqual(STS.configuration.timeoutIntervalForRequest, 1);
     XCTAssertEqual(STS.configuration.timeoutIntervalForResource, 1);
     XCTAssertEqual(STS.configuration.maxRetryCount, 1);
-    NSURLSessionConfiguration *URLSessionConfiguration = [STS valueForKeyPath:@"networking.networkManager.session.configuration"];
+    AWSURLSessionConfigurationv *URLSessionConfiguration = [STS valueForKeyPath:@"networking.networkManager.session.configuration"];
     XCTAssertEqual(URLSessionConfiguration.timeoutIntervalForRequest, 1);
     XCTAssertEqual(URLSessionConfiguration.timeoutIntervalForResource, 1);
 }

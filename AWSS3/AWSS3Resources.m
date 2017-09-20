@@ -15,6 +15,7 @@
 
 #import "AWSS3Resources.h"
 #import "AWSLogging.h"
+#import "AWSJSONSerialization.h"
 
 @interface AWSS3Resources ()
 
@@ -42,7 +43,7 @@
     if (self = [super init]) {
         //init method
         NSError *error = nil;
-        _definitionDictionary = [NSJSONSerialization JSONObjectWithData:[[self definitionString] dataUsingEncoding:NSUTF8StringEncoding]
+        _definitionDictionary = [AWSJSONSerialization JSONObjectWithData:[[self definitionString] dataUsingEncoding:NSUTF8StringEncoding]
                                                                 options:kNilOptions
                                                                   error:&error];
         if (_definitionDictionary == nil) {

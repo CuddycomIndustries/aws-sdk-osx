@@ -14,6 +14,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "AWSJSONSerialization.h"
 
 FOUNDATION_EXPORT NSString *const AWSDateRFC822DateFormat1;
 FOUNDATION_EXPORT NSString *const AWSDateISO8601DateFormat1;
@@ -53,10 +54,10 @@ FOUNDATION_EXPORT NSString *const AWSDateShortDateFormat1;
 
 @end
 
-@interface NSJSONSerialization (AWS)
+@interface AWSJSONSerialization (AWS)
 
 + (NSData *)aws_dataWithJSONObject:(id)obj
-                           options:(NSJSONWritingOptions)opt
+                           options:(AWSJSONWritingOptions)opt
                              error:(NSError **)error;
 
 @end

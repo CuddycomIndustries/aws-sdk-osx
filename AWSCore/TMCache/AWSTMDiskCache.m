@@ -18,6 +18,8 @@
     #define TMCacheEndBackgroundTask()
 #endif
 
+#import "AWSSystemInfo.h"
+
 NSString * const AWSTMDiskCachePrefix = @"com.tumblr.TMDiskCache";
 NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
@@ -73,7 +75,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
         NSString *pathComponent = [[NSString alloc] initWithFormat:@"%@.%@", AWSTMDiskCachePrefix, _name];
         _cacheURL = [NSURL fileURLWithPathComponents:@[ rootPath, pathComponent ]];
 
-        __weak AWSTMDiskCache *weakSelf = self;
+        __block typeof(self) weakSelf = self;
 
         dispatch_async(_queue, ^{
             AWSTMDiskCache *strongSelf = weakSelf;
@@ -168,7 +170,6 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
     dispatch_once(&predicate, ^{
         NSString *queueName = [[NSString alloc] initWithFormat:@"%@.trash", AWSTMDiskCachePrefix];
         trashQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
-        dispatch_set_target_queue(trashQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
     });
     
     return trashQueue;
@@ -184,7 +185,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
         
         if (![[NSFileManager defaultManager] fileExistsAtPath:[sharedTrashURL path]]) {
             NSError *error = nil;
-            [[NSFileManager defaultManager] createDirectoryAtURL:sharedTrashURL
+            [[NSFileManager defaultManager] createDirectoryAtPath:sharedTrashURL.path
                                      withIntermediateDirectories:YES
                                                       attributes:nil
                                                            error:&error];
@@ -232,13 +233,18 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 #pragma mark - Private Queue Methods -
 
+- (NSURLResourceKey)fileAllocatedSizeURLResourceKey
+{
+	return AWSSystemInfo.isLionOrGreater ? NSURLTotalFileAllocatedSizeKey : NSURLFileAllocatedSizeKey;
+}
+
 - (BOOL)createCacheDirectory
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:[_cacheURL path]])
         return NO;
 
     NSError *error = nil;
-    BOOL success = [[NSFileManager defaultManager] createDirectoryAtURL:_cacheURL
+    BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:_cacheURL.path
                                             withIntermediateDirectories:YES
                                                              attributes:nil
                                                                   error:&error];
@@ -250,7 +256,8 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 - (void)initializeDiskProperties
 {
     NSUInteger byteCount = 0;
-    NSArray *keys = @[ NSURLContentModificationDateKey, NSURLTotalFileAllocatedSizeKey ];
+	const NSURLResourceKey fileAllocatedSizeKey = [self fileAllocatedSizeURLResourceKey];
+    NSArray *keys = @[ NSURLContentModificationDateKey, fileAllocatedSizeKey ];
 
     NSError *error = nil;
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:_cacheURL
@@ -270,7 +277,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
         if (date && key)
             [_dates setObject:date forKey:key];
 
-        NSNumber *fileSize = [dictionary objectForKey:NSURLTotalFileAllocatedSizeKey];
+        NSNumber *fileSize = [dictionary objectForKey:fileAllocatedSizeKey];
         if (fileSize) {
             [_sizes setObject:fileSize forKey:key];
             byteCount += [fileSize unsignedIntegerValue];
@@ -386,7 +393,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:-_ageLimit];
     [self trimDiskToDate:date];
     
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
     
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_ageLimit * NSEC_PER_SEC));
     dispatch_after(time, _queue, ^(void) {
@@ -404,7 +411,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
     if (!key || !block)
         return;
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -438,7 +445,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
     if (!key || !block)
         return;
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -466,7 +473,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
     TMCacheStartBackgroundTask();
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -486,10 +493,13 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
             [strongSelf setFileModificationDate:now forURL:fileURL];
 
             NSError *error = nil;
-            NSDictionary *values = [fileURL resourceValuesForKeys:@[ NSURLTotalFileAllocatedSizeKey ] error:&error];
+			
+			const NSURLResourceKey fileAllocatedSizeKey = [self fileAllocatedSizeURLResourceKey];
+			
+            NSDictionary *values = [fileURL resourceValuesForKeys:@[ fileAllocatedSizeKey ] error:&error];
             TMDiskCacheError(error);
 
-            NSNumber *diskFileSize = [values objectForKey:NSURLTotalFileAllocatedSizeKey];
+            NSNumber *diskFileSize = [values objectForKey:fileAllocatedSizeKey];
             if (diskFileSize) {
                 NSNumber *oldEntry = [strongSelf->_sizes objectForKey:key];
                 
@@ -524,7 +534,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
     TMCacheStartBackgroundTask();
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -552,7 +562,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
     TMCacheStartBackgroundTask();
     
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
     
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -582,7 +592,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
     
     TMCacheStartBackgroundTask();
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -609,7 +619,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
     TMCacheStartBackgroundTask();
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -631,7 +641,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 {
     TMCacheStartBackgroundTask();
     
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -669,7 +679,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
     TMCacheStartBackgroundTask();
 
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -877,7 +887,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setWillAddObjectBlock:(AWSTMDiskCacheObjectBlock)block
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -901,7 +911,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setWillRemoveObjectBlock:(AWSTMDiskCacheObjectBlock)block
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -925,7 +935,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setWillRemoveAllObjectsBlock:(AWSTMDiskCacheBlock)block
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -949,7 +959,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setDidAddObjectBlock:(AWSTMDiskCacheObjectBlock)block
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -973,7 +983,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setDidRemoveObjectBlock:(AWSTMDiskCacheObjectBlock)block
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -997,7 +1007,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setDidRemoveAllObjectsBlock:(AWSTMDiskCacheBlock)block
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     dispatch_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -1021,7 +1031,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setByteLimit:(NSUInteger)byteLimit
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
     
     dispatch_barrier_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;
@@ -1048,7 +1058,7 @@ NSString * const AWSTMDiskCacheSharedName = @"TMDiskCacheShared";
 
 - (void)setAgeLimit:(NSTimeInterval)ageLimit
 {
-    __weak AWSTMDiskCache *weakSelf = self;
+    __block typeof(self) weakSelf = self;
     
     dispatch_barrier_async(_queue, ^{
         AWSTMDiskCache *strongSelf = weakSelf;

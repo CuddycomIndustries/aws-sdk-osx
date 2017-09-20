@@ -1294,7 +1294,7 @@ NSString *const AWSJSONParserErrorDomain = @"com.amazonaws.AWSJSONParserErrorDom
         }
 
     } else {
-        NSData *bodyData = [NSJSONSerialization dataWithJSONObject:serializedJsonObject
+        NSData *bodyData = [AWSJSONSerialization dataWithJSONObject:serializedJsonObject
                                                            options:0
                                                              error:error];
         return bodyData;
@@ -1507,8 +1507,8 @@ NSString *const AWSJSONParserErrorDomain = @"com.amazonaws.AWSJSONParserErrorDom
     // They are valid JSON texts according to RFC 7159 and ECMA 404.
     // (RFC 4627 was replaced with RFC 7159 in March 2014.)
     // You need to pass NSJSONReadingAllowFragments here, otherwise, they may fail.
-    id result =  [NSJSONSerialization JSONObjectWithData:data
-                                                               options:NSJSONReadingAllowFragments
+    id result =  [AWSJSONSerialization JSONObjectWithData:data
+                                                               options:AWSJSONReadingAllowFragments
                                                                  error:error];
 
     NSDictionary *actionRule = [[[serviceDefinitionRule objectForKey:@"operations"] objectForKey:actionName] objectForKey:@"output"];

@@ -19,6 +19,7 @@
 #import "AWSTMCache.h"
 #import "AWSCategory.h"
 #import "AWSLogging.h"
+#import "AWSURLSession.h"
 #import "AWSSynchronizedMutableDictionary.h"
 
 NSUInteger const AWSS3TransferManagerMinimumPartSize = 5 * 1024 * 1024; // 5MB
@@ -178,7 +179,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     }
 
     unsigned long long fileSize = [attributes fileSize];
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     AWSTask *task = [AWSTask taskWithResult:nil];
     task = [[[task continueWithSuccessBlock:^id(AWSTask *task) {
@@ -186,6 +187,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
                            forKey:cacheKey];
         return nil;
     }] continueWithSuccessBlock:^id(AWSTask *task) {
+		
         if (fileSize > AWSS3TransferManagerMinimumPartSize) {
             return [weakSelf multipartUpload:uploadRequest fileSize:fileSize cacheKey:cacheKey];
         } else {
@@ -223,7 +225,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     uploadRequest.contentLength = [NSNumber numberWithUnsignedLongLong:fileSize];
     AWSS3PutObjectRequest *putObjectRequest = [AWSS3PutObjectRequest new];
     [putObjectRequest aws_copyPropertiesFromObject:uploadRequest];
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     AWSTask *uploadTask = [[weakSelf.s3 putObject:putObjectRequest] continueWithBlock:^id(AWSTask *task) {
 
@@ -253,7 +255,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     NSUInteger partCount = ceil((double)fileSize / AWSS3TransferManagerMinimumPartSize);
 
     AWSTask *initRequest = nil;
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     //if it is a new request, Init multipart upload request
     if (uploadRequest.currentUploadingPartNumber == 0) {
@@ -530,7 +532,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     //set shouldWriteDirectly to YES
     [downloadRequest setValue:@YES forKey:@"shouldWriteDirectly"];
 
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     AWSTask *task = [AWSTask taskWithResult:nil];
     task = [[task continueWithSuccessBlock:^id(AWSTask *task) {
@@ -551,7 +553,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     //set the downloadURL to use this tempURL instead.
     getObjectRequest.downloadingFileURL = downloadRequest.temporaryFileURL;
     
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     AWSTask *downloadTask = [[[weakSelf.s3 getObject:getObjectRequest] continueWithBlock:^id(AWSTask *task) {
 
@@ -676,7 +678,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     NSMutableArray *tasks = [NSMutableArray new];
     NSMutableArray *results = [NSMutableArray new];
 
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     for (NSString *key in keys) {
         id cachedObject = [self.cache objectForKey:key];
@@ -727,7 +729,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     abortMultipartUploadRequest.key = uploadRequest.key;
     abortMultipartUploadRequest.uploadId = uploadRequest.uploadId;
 
-    __weak AWSS3TransferManager *weakSelf = self;
+    __block typeof(self) weakSelf = self;
 
     [[weakSelf.s3 abortMultipartUpload:abortMultipartUploadRequest] continueWithBlock:^id(AWSTask *task) {
         if (task.error) {

@@ -139,20 +139,20 @@ static NSTimeInterval _clockskew = 0.0;
 
 @end
 
-@implementation NSJSONSerialization (AWS)
+@implementation AWSJSONSerialization (AWS)
 
 + (NSData *)aws_dataWithJSONObject:(id)obj
-                           options:(NSJSONWritingOptions)opt
+                           options:(AWSJSONWritingOptions)opt
                              error:(NSError **)error {
     if (!obj) {
         return nil;
     }
-    if ([NSJSONSerialization isValidJSONObject:obj]) {
-        return [NSJSONSerialization dataWithJSONObject:obj
+    if ([AWSJSONSerialization isValidJSONObject:obj]) {
+        return [AWSJSONSerialization dataWithJSONObject:obj
                                                options:opt
                                                  error:error];
     } else {
-        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:@[obj]
+        NSData *JSONData = [AWSJSONSerialization dataWithJSONObject:@[obj]
                                                            options:opt
                                                              error:error];
         NSString *JSONString = [[NSString alloc] initWithData:JSONData
@@ -300,8 +300,8 @@ static NSTimeInterval _clockskew = 0.0;
 }
 
 - (NSString *)aws_decodeURLEncoding {
-    NSString *result = [self stringByRemovingPercentEncoding];
-    return result?result:self;
+	NSString *result = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8));
+    return result ? result : self;
 }
 
 - (NSString *)aws_md5String {

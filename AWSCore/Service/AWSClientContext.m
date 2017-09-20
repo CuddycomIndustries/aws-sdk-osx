@@ -19,6 +19,7 @@
 #import <sys/sysctl.h>
 #import "AWSUICKeyChainStore.h"
 #import "AWSLogging.h"
+#import "AWSJSONSerialization.h"
 
 // Public constants
 NSString *const AWSClientContextVersion = @"1.0";
@@ -108,7 +109,7 @@ NSString *const AWSClientContextKeychainInstallationIdKey = @"com.amazonaws.AWSC
 - (NSString *)JSONString {
     NSDictionary *JSONObject = [self dictionaryRepresentation];
     NSError *error = nil;
-    NSData *JSONData = [NSJSONSerialization dataWithJSONObject:JSONObject
+    NSData *JSONData = [AWSJSONSerialization dataWithJSONObject:JSONObject
                                                        options:kNilOptions
                                                          error:&error];
     if (!JSONData) {

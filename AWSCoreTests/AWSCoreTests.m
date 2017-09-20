@@ -131,8 +131,8 @@
         NSData *jsonData = [testRequest HTTPBody];
         
         NSError *error = nil;
-        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                       options:NSJSONReadingMutableContainers
+        NSDictionary *jsonDictionary = [AWSJSONSerialization JSONObjectWithData:jsonData
+                                                                       options:AWSJSONReadingMutableContainers
                                                                          error:&error];
         
         if (error){
@@ -153,8 +153,8 @@
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"rest-xml-input" ofType:@"json"];
     
     NSError *error = nil;
-    NSMutableArray *xmlTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                      options:NSJSONReadingMutableContainers
+    NSMutableArray *xmlTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                      options:AWSJSONReadingMutableContainers
                                                                         error:&error];
     XCTAssertNil(error);
     
@@ -252,8 +252,8 @@
 - (void)testXmlDeserializer {
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"rest-xml-output" ofType:@"json"];
     NSError *error = nil;
-    NSMutableArray *jsonTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                       options:NSJSONReadingMutableContainers
+    NSMutableArray *jsonTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                       options:AWSJSONReadingMutableContainers
                                                                          error:&error];
     XCTAssertNil(error);
     
@@ -322,8 +322,8 @@
 - (void)testQueryStringSerializer {
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"query-input" ofType:@"json"];
     NSError *error = nil;
-    NSMutableArray *queryTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+    NSMutableArray *queryTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:AWSJSONReadingMutableContainers
                                                                           error:&error];
     XCTAssertNil(error);
     
@@ -399,8 +399,8 @@
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"query-output" ofType:@"json"];
     
     NSError *error = nil;
-    NSMutableArray *queryTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                       options:NSJSONReadingMutableContainers
+    NSMutableArray *queryTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                       options:AWSJSONReadingMutableContainers
                                                                          error:&error];
     XCTAssertNil(error);
     
@@ -466,8 +466,8 @@
 - (void)testJsonSerializer {
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"json-input" ofType:@"json"];
     NSError *error = nil;
-    NSMutableArray *jsonTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+    NSMutableArray *jsonTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:AWSJSONReadingMutableContainers
                                                                           error:&error];
     XCTAssertNil(error);
     
@@ -531,8 +531,8 @@
             NSString* resultBodyStr = [[NSString alloc] initWithData:mockRequest.HTTPBody encoding:NSUTF8StringEncoding];
             NSString* expectedBodyStr = resultDic[@"body"];
             
-            NSDictionary *resultBodyDic = [NSJSONSerialization JSONObjectWithData:mockRequest.HTTPBody options:0 error:nil];
-            NSDictionary *expectedBodyDic = [NSJSONSerialization JSONObjectWithData:[expectedBodyStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+            NSDictionary *resultBodyDic = [AWSJSONSerialization JSONObjectWithData:mockRequest.HTTPBody options:0 error:nil];
+            NSDictionary *expectedBodyDic = [AWSJSONSerialization JSONObjectWithData:[expectedBodyStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
             
             if ([expectedBodyDic count] == 0) {
                 XCTAssertEqualObjects(expectedBodyStr,resultBodyStr , @"(TestPak %d TestCase %d) wrong HTTP Body, expect:\n%@, but got:\n%@",i,j,expectedBodyStr, resultBodyStr);
@@ -560,8 +560,8 @@
 - (void)testJsonDeserializer {
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"json-output" ofType:@"json"];
     NSError *error = nil;
-    NSMutableArray *jsonTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                       options:NSJSONReadingMutableContainers
+    NSMutableArray *jsonTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                       options:AWSJSONReadingMutableContainers
                                                                          error:&error];
     XCTAssertNil(error);
     for (int i=0; i<[jsonTestPackages count]; i++) {
@@ -622,8 +622,8 @@
 - (void)testRestJsonSerializer {
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"rest-json-input" ofType:@"json"];
     NSError *error = nil;
-    NSMutableArray *jsonTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                       options:NSJSONReadingMutableContainers
+    NSMutableArray *jsonTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                       options:AWSJSONReadingMutableContainers
                                                                          error:&error];
     XCTAssertNil(error);
     
@@ -699,12 +699,12 @@
                     NSData *httpStreamData = [NSData dataWithBytes:buffer length:len];
                     
                     resultBodyStr = [[NSString alloc] initWithData:httpStreamData encoding:NSUTF8StringEncoding];
-                    resultBodyDic = [NSJSONSerialization JSONObjectWithData:httpStreamData options:0 error:nil];
+                    resultBodyDic = [AWSJSONSerialization JSONObjectWithData:httpStreamData options:0 error:nil];
                 }
             } else {
                 if (mockRequest.HTTPBody) {
                     resultBodyStr = [[NSString alloc] initWithData:mockRequest.HTTPBody encoding:NSUTF8StringEncoding];
-                    resultBodyDic = [NSJSONSerialization JSONObjectWithData:mockRequest.HTTPBody options:0 error:nil];
+                    resultBodyDic = [AWSJSONSerialization JSONObjectWithData:mockRequest.HTTPBody options:0 error:nil];
                 } else {
                     resultBodyStr = @"{}";
                     resultBodyDic = nil;
@@ -715,7 +715,7 @@
             if ([expectedBodyStr length] == 0) {
                 expectedBodyStr = @"{}";
             }
-            NSDictionary *expectedBodyDic = [NSJSONSerialization JSONObjectWithData:[expectedBodyStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+            NSDictionary *expectedBodyDic = [AWSJSONSerialization JSONObjectWithData:[expectedBodyStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
             
             if ([expectedBodyDic count] == 0) {
                 XCTAssertEqualObjects(expectedBodyStr,resultBodyStr , @"(TestPak %d TestCase %d) wrong HTTP Body, expect:\n%@, but got:\n%@",i,j,expectedBodyStr, resultBodyStr);
@@ -743,8 +743,8 @@
 - (void)testRestJsonDeserializer {
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"rest-json-output" ofType:@"json"];
     NSError *error = nil;
-    NSMutableArray *jsonTestPackages = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                       options:NSJSONReadingMutableContainers
+    NSMutableArray *jsonTestPackages = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                       options:AWSJSONReadingMutableContainers
                                                                          error:&error];
     
     XCTAssertNil(error);
@@ -809,8 +809,8 @@
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"ec2-input" ofType:@"json"];
     
     NSError *error = nil;
-    NSMutableArray *ec2TestPackage = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+    NSMutableArray *ec2TestPackage = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:AWSJSONReadingMutableContainers
                                                                           error:&error];
     XCTAssertNil(error);
     
@@ -886,8 +886,8 @@
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"ec2-output" ofType:@"json"];
     
     NSError *error = nil;
-    NSMutableArray *ec2TestPackge = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                    options:NSJSONReadingMutableContainers
+    NSMutableArray *ec2TestPackge = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                    options:AWSJSONReadingMutableContainers
                                                                       error:&error];
     XCTAssertNil(error);
     

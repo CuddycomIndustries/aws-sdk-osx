@@ -240,10 +240,32 @@ NSString *const AWSTaskMultipleExceptionsException = @"BFMultipleExceptionsExcep
     }
 }
 
+- (void)setCancelled:(BOOL)cancelled
+{
+	@synchronized (self.lock)
+	{
+		if (_cancelled != cancelled)
+		{
+			_cancelled = cancelled;
+		}
+	}
+}
+
 - (BOOL)isFaulted {
     @synchronized (self.lock) {
         return _faulted;
     }
+}
+
+- (void)setFaulted:(BOOL)faulted
+{
+	@synchronized (self.lock)
+	{
+		if (_faulted != faulted)
+		{
+			_faulted = faulted;
+		}
+	}
 }
 
 - (void)cancel {
@@ -268,9 +290,21 @@ NSString *const AWSTaskMultipleExceptionsException = @"BFMultipleExceptionsExcep
 }
 
 - (BOOL)isCompleted {
-    @synchronized (self.lock) {
+    @synchronized (self.lock)
+	{
         return _completed;
     }
+}
+
+- (void)setCompleted:(BOOL)completed
+{
+	@synchronized (self.lock)
+	{
+		if (_completed != completed)
+		{
+			_completed = completed;
+		}
+	}
 }
 
 - (void)setCompleted {

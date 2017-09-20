@@ -40,8 +40,12 @@ NSString *const kAWSReachabilityChangedNotification = @"kAWSReachabilityChangedN
 
 @interface AWSReachability ()
 
-@property (nonatomic, assign) SCNetworkReachabilityRef  reachabilityRef;
+@property (nonatomic, assign) SCNetworkReachabilityRef  reachabilityRef; // retain
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_queue_t          reachabilitySerialQueue;
+#else
+@property (nonatomic, assign) dispatch_queue_t          reachabilitySerialQueue;
+#endif
 @property (nonatomic, strong) id                        reachabilityObject;
 
 -(void)reachabilityChanged:(SCNetworkReachabilityFlags)flags;
@@ -86,6 +90,8 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 @implementation AWSReachability
 
+@synthesize reachabilitySerialQueue = _reachabilitySerialQueue;
+
 #pragma mark - Class Constructor Methods
 
 +(AWSReachability*)reachabilityWithHostName:(NSString*)hostname
@@ -99,7 +105,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     if (ref) 
     {
         id reachability = [[self alloc] initWithReachabilityRef:ref];
-
+		CFRelease(ref);
         return reachability;
     }
     
@@ -112,7 +118,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     if (ref) 
     {
         id reachability = [[self alloc] initWithReachabilityRef:ref];
-        
+        CFRelease(ref);
         return reachability;
     }
     
@@ -150,8 +156,10 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     if (self != nil) 
     {
         self.reachableOnWWAN = YES;
-        self.reachabilityRef = ref;
-
+		if (ref)
+		{
+			_reachabilityRef = CFRetain(ref);
+		}
         // We need to create a serial queue.
         // We allocate this once for the lifetime of the notifier.
 
@@ -165,15 +173,39 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 {
     [self stopNotifier];
 
-    if(self.reachabilityRef)
+    if(_reachabilityRef != NULL)
     {
-        CFRelease(self.reachabilityRef);
-        self.reachabilityRef = nil;
+        CFRelease(_reachabilityRef);
     }
+	
+#if OS_OBJECT_USE_OBJC
+	self.reachabilitySerialQueue = nil;
+#else
+	if (_reachabilitySerialQueue != nil)
+	{
+		dispatch_release(_reachabilitySerialQueue);
+	}
+#endif
 
 	self.reachableBlock          = nil;
 	self.unreachableBlock        = nil;
-    self.reachabilitySerialQueue = nil;
+}
+
+- (void)setReachabilityRef:(SCNetworkReachabilityRef)reachabilityRef
+{
+	if (_reachabilityRef != reachabilityRef)
+	{
+		if (_reachabilityRef != NULL)
+		{
+			CFRelease(_reachabilityRef);
+		}
+		_reachabilityRef = reachabilityRef;
+		
+		if (_reachabilityRef != NULL)
+		{
+			CFRetain(_reachabilityRef);
+		}
+	}
 }
 
 #pragma mark - Notifier Methods

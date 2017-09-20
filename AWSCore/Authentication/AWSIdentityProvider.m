@@ -125,13 +125,18 @@ NSString *const AWSCognitoNotificationNewId = @"NEWID";
 @property (nonatomic, strong) AWSCognitoIdentity *cib;
 @property (nonatomic, strong) AWSExecutor *executor;
 @property (atomic, assign) int32_t count;
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
+#else
+@property (nonatomic, assign) dispatch_semaphore_t semaphore;
+#endif
 
 @end
 
 @implementation AWSAbstractCognitoIdentityProvider
 
 @synthesize accountId = _accountId;
+@synthesize semaphore = _semaphore;
 
 - (instancetype)initWithRegionType:(AWSRegionType)regionType
                         identityId:(NSString *)identityId
@@ -158,6 +163,16 @@ NSString *const AWSCognitoNotificationNewId = @"NEWID";
     }
 
     return self;
+}
+
+- (void)dealloc
+{
+#if !OS_OBJECT_USE_OBJC
+	if (_semaphore)
+	{
+		dispatch_release(_semaphore);
+	}
+#endif
 }
 
 - (AWSTask *)getIdentityId {

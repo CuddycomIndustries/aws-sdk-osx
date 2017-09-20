@@ -39,8 +39,8 @@ NSString *const AWSTestUtilityCognitoIdentityServiceKey = @"test-cib";
     if (![AWSServiceManager defaultServiceManager].defaultServiceConfiguration) {
 #if AWS_TEST_BJS_INSTEAD
         NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"credentials" ofType:@"json"];
-        NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+        NSDictionary *credentialsJson = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:AWSJSONReadingMutableContainers
                                                                           error:nil];
         AWSStaticCredentialsProvider *credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:credentialsJson[@"accessKeyBJS"]
                                                                                                           secretKey:credentialsJson[@"secretKeyBJS"]];
@@ -78,8 +78,8 @@ NSString *const AWSTestUtilityCognitoIdentityServiceKey = @"test-cib";
     if (![AWSServiceManager defaultServiceManager].defaultServiceConfiguration) {
         NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"credentials"
                                                                               ofType:@"json"];
-        NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+        NSDictionary *credentialsJson = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:AWSJSONReadingMutableContainers
                                                                           error:nil];
 
 #pragma clang diagnostic push
@@ -104,8 +104,8 @@ NSString *const AWSTestUtilityCognitoIdentityServiceKey = @"test-cib";
     if (![AWSSTS STSForKey:AWSTestUtilitySTSKey]) {
 #if AWS_TEST_BJS_INSTEAD
         NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"credentials" ofType:@"json"];
-        NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+        NSDictionary *credentialsJson = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:AWSJSONReadingMutableContainers
                                                                           error:nil];
         AWSStaticCredentialsProvider *credentialsProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:credentialsJson[@"accessKeyBJS"]
                                                                                                           secretKey:credentialsJson[@"secretKeyBJS"]];

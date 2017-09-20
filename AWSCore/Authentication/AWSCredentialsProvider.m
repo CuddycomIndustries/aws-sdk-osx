@@ -52,8 +52,8 @@ NSString *const AWSCredentialsProviderKeychainIdentityId = @"identityId";
 - (instancetype)initWithCredentialsFilename:(NSString *)credentialsFilename {
     if (self = [super init]) {
         NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:credentialsFilename ofType:@"json"];
-        NSDictionary *credentialsJson = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                                                        options:NSJSONReadingMutableContainers
+        NSDictionary *credentialsJson = [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                                                        options:0
                                                                           error:nil];
         _accessKey = credentialsJson[@"accessKey"];
         _secretKey = credentialsJson[@"secretKey"];
@@ -240,7 +240,11 @@ NSString *const AWSCredentialsProviderKeychainIdentityId = @"identityId";
 @property (nonatomic, strong) AWSUICKeyChainStore *keychain;
 @property (nonatomic, strong) AWSExecutor *refreshExecutor;
 @property (atomic, assign) int32_t count;
+#if OS_OBJECT_USE_OBJC
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
+#else
+@property (nonatomic, assign) dispatch_semaphore_t semaphore;
+#endif
 @property (nonatomic, strong) NSString *identityId;
 @property (nonatomic, strong) NSString *accessKey;
 @property (nonatomic, strong) NSString *secretKey;
@@ -257,6 +261,7 @@ NSString *const AWSCredentialsProviderKeychainIdentityId = @"identityId";
 @synthesize secretKey=_secretKey;
 @synthesize sessionKey=_sessionKey;
 @synthesize expiration=_expiration;
+@synthesize semaphore=_semaphore;
 
 - (instancetype)initWithRegionType:(AWSRegionType)regionType
                     identityPoolId:(NSString *)identityPoolId {
@@ -329,6 +334,16 @@ NSString *const AWSCredentialsProviderKeychainIdentityId = @"identityId";
     }
 
     return self;
+}
+
+- (void)dealloc
+{
+#if !OS_OBJECT_USE_OBJC
+	if (_semaphore)
+	{
+		dispatch_release(_semaphore);
+	}
+#endif
 }
 
 - (void)setUpWithRegionType:(AWSRegionType)regionType

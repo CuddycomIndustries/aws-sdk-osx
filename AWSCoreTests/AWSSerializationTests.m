@@ -39,8 +39,8 @@
     
     NSString *filePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"json"];
     NSError *error = nil;
-    return [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
-                                           options:NSJSONReadingMutableContainers
+    return [AWSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePath]
+                                           options:AWSJSONReadingMutableContainers
                                              error:&error];
 }
 
@@ -51,7 +51,7 @@
                                                   actionName:@""
                                        serviceDefinitionRule:[[AWSCognitoIdentityResources sharedInstance] JSONObject]
                                                        error:&error];
-    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    NSDictionary *jsonDic = [AWSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     XCTAssertEqualObjects(@{},jsonDic);
     
     XCTAssertNotNil(error);
